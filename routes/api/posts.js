@@ -27,7 +27,7 @@ router.post(
         user: req.user.id,
       });
       const post = await newPost.save();
-      return res.json(post);
+      return res.json(newPost);
     } catch (error) {
       console.error(error.message);
       res.status(500).json({ msg: 'server error' });

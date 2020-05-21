@@ -8,7 +8,7 @@ const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 
 // @route GET api/auth
-// @desc test route
+// @desc get the user from token
 // @access Public
 router.get('/', auth, async (req, res) => {
   try {
@@ -25,7 +25,7 @@ router.post(
   '/',
   [
     check('email', 'please enter valid email').isEmail(),
-    check('password', 'Please enter valid password').exists(),
+    check('password', 'Please enter valid password').not().isEmpty(),
   ],
   async (req, res) => {
     //validating checks
@@ -50,7 +50,9 @@ router.post(
 
       const isMatch = await bcrypt.compare(password, user.password);
       if (!isMatch) {
-        return res.status(400).json({ msg: 'wrong credentials' });
+        return res
+          .status(400)
+          .json({ errors: [{ msg: 'incorrect credentials' }] });
       }
 
       const payload = {
