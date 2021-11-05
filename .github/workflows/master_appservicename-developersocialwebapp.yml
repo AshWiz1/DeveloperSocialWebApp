@@ -24,8 +24,8 @@ jobs:
       - name: npm install, build, and test
         run: |
           npm install
-          npm install --prefix client
-          npm run build --prefix client
+          CI='false' npm install --prefix client
+          CI='false' npm run build --prefix client
 
       - name: Upload artifact for deployment job
         uses: actions/upload-artifact@v2
